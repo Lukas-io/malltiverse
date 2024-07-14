@@ -1,5 +1,3 @@
-![Simulator Screenshot - iPhone 15 Pro Max - 2024-07-14 at 04 37 23](https://github.com/user-attachments/assets/40b70ff6-97b1-49d2-add1-26eaee80c183)# malltiverse
-
 A HNG Project - Stage 3 actually, building off Claire's Design
 
 #  HNG Internship Stage III  
