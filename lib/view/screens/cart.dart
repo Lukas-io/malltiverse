@@ -5,7 +5,6 @@ import 'package:malltiverse/view/screens/checkout.dart';
 import 'package:malltiverse/view/widget/cart_item.dart';
 
 import '../../config/constants.dart';
-import '../../model/product_model.dart';
 import '../../providers/cart_provider.dart';
 
 class CartScreen extends ConsumerWidget {
@@ -40,138 +39,146 @@ class CartScreen extends ConsumerWidget {
               }),
             ),
           ),
-          SliverToBoxAdapter(
-            child: Container(
-              padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 16.0),
-              margin: EdgeInsets.symmetric(vertical: 20.0, horizontal: 16.0),
-              decoration:
-                  BoxDecoration(color: Color(0XFFEDEDED).withOpacity(0.67)),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "Shopping Summary",
-                    style:
-                        TextStyle(fontWeight: FontWeight.w600, fontSize: 18.0),
-                  ),
-                  SizedBox(
-                    height: 24.0,
-                  ),
-                  Text("Discount Code"),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: SizedBox(
-                          height: 40.0,
-                          child: TextField(
-                            decoration: InputDecoration(
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(9),
-                                borderSide: const BorderSide(
-                                  color: Color.fromRGBO(42, 42, 42, 0.7),
+          SliverPadding(
+            padding: const EdgeInsets.only(bottom: 80.0),
+            sliver: SliverToBoxAdapter(
+              child: Container(
+                padding: const EdgeInsets.symmetric(
+                    vertical: 20.0, horizontal: 16.0),
+                margin: const EdgeInsets.symmetric(
+                    vertical: 20.0, horizontal: 16.0),
+                decoration: BoxDecoration(
+                    color: const Color(0XFFEDEDED).withOpacity(0.67)),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      "Shopping Summary",
+                      style: TextStyle(
+                          fontWeight: FontWeight.w600, fontSize: 18.0),
+                    ),
+                    const SizedBox(
+                      height: 24.0,
+                    ),
+                    const Text("Discount Code"),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: SizedBox(
+                            height: 40.0,
+                            child: TextField(
+                              decoration: InputDecoration(
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(9),
+                                  borderSide: const BorderSide(
+                                    color: Color.fromRGBO(42, 42, 42, 0.7),
+                                  ),
                                 ),
                               ),
                             ),
                           ),
                         ),
-                      ),
-                      SizedBox(
-                        width: 12.0,
-                      ),
-                      TextButton(
-                        onPressed: () {},
-                        child: Text(
-                          "Apply",
-                          style: TextStyle(color: Colors.black),
+                        const SizedBox(
+                          width: 12.0,
                         ),
-                        style: ButtonStyle(
-                            shape: WidgetStateProperty.all(
-                                RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(8.0))),
-                            backgroundColor:
-                                WidgetStateProperty.all(kPrimaryColor)),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 24.0,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text("Sub-Total"),
-                      Text(
-                        '$kNairaSymbol ${totalAmount.toInt().toString().splitMapJoin(
-                              RegExp(r'(\d)(?=(\d{3})+(?!\d))'),
-                              onMatch: (match) => '${match[1]},',
-                              onNonMatch: (nonMatch) => nonMatch,
-                            )}',
-                        style: TextStyle(
-                            fontSize: 16.0, fontWeight: FontWeight.w600),
-                      )
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text("Delivery Fee"),
-                      Text(
-                        '$kNairaSymbol 1,500',
-                        style: TextStyle(
-                            fontSize: 16.0, fontWeight: FontWeight.w600),
-                      )
-                    ],
-                  ),
-                  SizedBox(
-                    height: 12.0,
-                  ),
-                  SizedBox(
-                    width: double.infinity,
-                    child: CustomPaint(
-                      painter: DashedLinePainter(),
+                        TextButton(
+                          onPressed: () {},
+                          style: ButtonStyle(
+                              shape: WidgetStateProperty.all(
+                                  RoundedRectangleBorder(
+                                      borderRadius:
+                                          BorderRadius.circular(8.0))),
+                              backgroundColor:
+                                  WidgetStateProperty.all(kPrimaryColor)),
+                          child: const Text(
+                            "Apply",
+                            style: TextStyle(color: Colors.black),
+                          ),
+                        ),
+                      ],
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 12.0),
-                    child: Row(
+                    const SizedBox(
+                      height: 24.0,
+                    ),
+                    Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text("Total Amount"),
+                        const Text("Sub-Total"),
                         Text(
-                          '$kNairaSymbol ${(totalAmount.toInt() + 1500).toString().splitMapJoin(
+                          '$kNairaSymbol ${totalAmount.toInt().toString().splitMapJoin(
                                 RegExp(r'(\d)(?=(\d{3})+(?!\d))'),
                                 onMatch: (match) => '${match[1]},',
                                 onNonMatch: (nonMatch) => nonMatch,
                               )}',
+                          style: const TextStyle(
+                              fontSize: 16.0, fontWeight: FontWeight.w600),
+                        )
+                      ],
+                    ),
+                    const Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text("Delivery Fee"),
+                        Text(
+                          '$kNairaSymbol 1,500',
                           style: TextStyle(
                               fontSize: 16.0, fontWeight: FontWeight.w600),
                         )
                       ],
                     ),
-                  ),
-                  Container(
-                    width: double.infinity,
-                    margin: EdgeInsets.symmetric(vertical: 16.0),
-                    padding: const EdgeInsets.symmetric(horizontal: 32.0),
-                    height: 50.0,
-                    child: ElevatedButton(
-                      onPressed: () => Navigator.push(
-                          context,
-                          CupertinoPageRoute(
-                              builder: (context) => CheckoutScreen())),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: kPrimaryColor,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                      ),
-                      child: Text(
-                        'Checkout',
-                        style: TextStyle(color: Colors.black),
+                    const SizedBox(
+                      height: 12.0,
+                    ),
+                    SizedBox(
+                      width: double.infinity,
+                      child: CustomPaint(
+                        painter: DashedLinePainter(),
                       ),
                     ),
-                  ),
-                ],
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 12.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Text("Total Amount"),
+                          Text(
+                            '$kNairaSymbol ${(totalAmount.toInt() + 1500).toString().splitMapJoin(
+                                  RegExp(r'(\d)(?=(\d{3})+(?!\d))'),
+                                  onMatch: (match) => '${match[1]},',
+                                  onNonMatch: (nonMatch) => nonMatch,
+                                )}',
+                            style: const TextStyle(
+                                fontSize: 16.0, fontWeight: FontWeight.w600),
+                          )
+                        ],
+                      ),
+                    ),
+                    Container(
+                      width: double.infinity,
+                      margin: const EdgeInsets.symmetric(vertical: 16.0),
+                      padding: const EdgeInsets.symmetric(horizontal: 32.0),
+                      height: 50.0,
+                      child: ElevatedButton(
+                        onPressed: () => Navigator.push(
+                          context,
+                          CupertinoPageRoute(
+                            builder: (context) => const CheckoutScreen(),
+                          ),
+                        ),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: kPrimaryColor,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                        ),
+                        child: const Text(
+                          'Checkout',
+                          style: TextStyle(color: Colors.black),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
@@ -196,7 +203,7 @@ class CartScreen extends ConsumerWidget {
             style: TextStyle(fontWeight: FontWeight.w600),
           ),
         ),
-        SliverFillRemaining(
+        const SliverFillRemaining(
           child: Center(
             child: Text(
               "No Item In The Cart",

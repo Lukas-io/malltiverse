@@ -15,6 +15,7 @@ const String pConfetti = "assets/images/confetti.png";
 const String pESim = "assets/images/esim.png";
 const String pSuccessful = "assets/images/successful.png";
 const String pCart1Inactive = "assets/icons/cart1_inactive.png";
+const String pCart1Active = "assets/icons/cart1_active.png";
 const String pCart2Inactive = "assets/icons/cart2_inactive.png";
 const String pHomeInactive = "assets/icons/home_inactive.png";
 const String pCart2Active = "assets/icons/cart2_active.png";

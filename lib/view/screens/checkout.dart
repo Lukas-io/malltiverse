@@ -36,7 +36,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
         ),
         SliverFillRemaining(
           child: Padding(
-            padding: EdgeInsets.all(20.0),
+            padding: const EdgeInsets.all(20.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -171,7 +171,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                     onPressed: () => Navigator.push(
                         context,
                         CupertinoPageRoute(
-                            builder: (context) => PaymentScreen())),
+                            builder: (context) => const PaymentScreen())),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: kPrimaryColor,
                       shape: RoundedRectangleBorder(

@@ -1,83 +1,84 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
 import 'package:malltiverse/config/constants.dart';
 import 'package:malltiverse/view/screens/cart.dart';
+import 'package:malltiverse/view/screens/cart_history.dart';
 import 'package:malltiverse/view/screens/product_list.dart';
 
 class Home extends StatefulWidget {
-  Home({super.key});
+  const Home({super.key});
 
   @override
   State<Home> createState() => _HomeState();
 }
 
 class _HomeState extends State<Home> {
-  final List<Widget> tabs = [ProductListScreen(), SizedBox(), CartScreen()];
+  final List<Widget> tabs = [
+    const ProductListScreen(),
+    const CartHistoryScreen(),
+    const CartScreen()
+  ];
 
   int _currentIndex = 0;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: _customNavigationBar(),
-      body: SafeArea(child: tabs[_currentIndex]),
+      body: SafeArea(
+          child: Stack(children: [
+        tabs[_currentIndex],
+        Align(alignment: Alignment.bottomCenter, child: _customNavigationBar())
+      ])),
     );
   }
 
-  _customNavigationBar() {
+  Widget _customNavigationBar() {
     return Container(
-      padding: const EdgeInsets.only(left: 24.0, right: 24.0),
-      child: ClipRRect(
-        clipper: CustomRRectClipper(),
-        borderRadius: BorderRadius.circular(16.0),
-        child: ClipRRect(
-          child: BottomNavigationBar(
-            type: BottomNavigationBarType.fixed,
-            currentIndex: _currentIndex,
-            selectedItemColor: kPrimaryColor,
-            unselectedItemColor: Colors.white,
-            showSelectedLabels: false,
-            showUnselectedLabels: false,
-            backgroundColor: Color(0XFF2A2A2A),
-            onTap: (index) {
-              setState(() {
-                _currentIndex = index;
-              });
-            },
-            iconSize: 30.0,
-            items: [
-              BottomNavigationBarItem(
-                  label: "",
-                  icon: ImageIcon(Image.asset(pHomeInactive).image),
-                  // activeIcon: ImageIcon(Image.asset(pHomeActive).image),
-                  backgroundColor: Colors.transparent),
-              BottomNavigationBarItem(
-                label: "",
-                icon: ImageIcon(Image.asset(pCart1Inactive).image),
+        margin: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
+        height: 60.0,
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(16.0),
+            color: Color(0XFF2A2A2A)),
+        child: Row(
+          mainAxisSize: MainAxisSize.max,
+          children: [
+            Expanded(
+              child: InkResponse(
+                onTap: () {
+                  setState(() {
+                    _currentIndex = 0;
+                  });
+                },
+                child: _currentIndex == 0
+                    ? Image.asset(pHomeActive)
+                    : Image.asset(pHomeInactive),
               ),
-              BottomNavigationBarItem(
-                label: "",
-                icon: ImageIcon(Image.asset(pCart2Inactive).image),
-              )
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class CustomRRectClipper extends CustomClipper<RRect> {
-  @override
-  RRect getClip(Size size) {
-    return RRect.fromRectAndRadius(
-      Rect.fromLTRB(0, 0, size.width, size.height - 36.0),
-      const Radius.circular(12.0), // You can adjust this for rounded corners
-    );
-  }
-
-  @override
-  bool shouldReclip(CustomClipper<RRect> oldClipper) {
-    return true;
+            ),
+            Expanded(
+              child: InkResponse(
+                onTap: () {
+                  setState(() {
+                    _currentIndex = 1;
+                  });
+                },
+                child: _currentIndex == 1
+                    ? Image.asset(pCart1Active)
+                    : Image.asset(pCart1Inactive),
+              ),
+            ),
+            Expanded(
+              child: InkResponse(
+                onTap: () {
+                  setState(() {
+                    _currentIndex = 2;
+                  });
+                },
+                child: _currentIndex == 2
+                    ? Image.asset(pCart2Active)
+                    : Image.asset(pCart2Inactive),
+              ),
+            ),
+          ],
+        ));
   }
 }

@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hive/hive.dart';
 import 'package:malltiverse/config/constants.dart';
+import 'package:malltiverse/model/cart_model.dart';
 import 'package:malltiverse/view/screens/successful.dart';
 
 import '../../providers/cart_provider.dart';
@@ -15,7 +17,7 @@ class PaymentScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Payment"),
+        title: const Text("Payment"),
       ),
       body: Padding(
         padding: const EdgeInsets.all(20.0),
@@ -34,9 +36,9 @@ class PaymentScreen extends ConsumerWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Row(
+                      const Row(
                         children: [
-                          const Spacer(),
+                          Spacer(),
                           Text(
                             'VISA',
                             style: TextStyle(
@@ -48,7 +50,7 @@ class PaymentScreen extends ConsumerWidget {
                         ],
                       ),
                       const Spacer(),
-                      Text(
+                      const Text(
                         '5047 1245 7689 2345',
                         style: TextStyle(
                           color: Colors.white,
@@ -59,7 +61,7 @@ class PaymentScreen extends ConsumerWidget {
                       const SizedBox(height: 10),
                       Row(
                         children: [
-                          Column(
+                          const Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
@@ -81,7 +83,7 @@ class PaymentScreen extends ConsumerWidget {
                             ],
                           ),
                           const SizedBox(width: 36),
-                          Column(
+                          const Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
@@ -142,10 +144,10 @@ class PaymentScreen extends ConsumerWidget {
             TextField(
               decoration: InputDecoration(
                 hintText: '0000 0000 0000 0000',
-                hintStyle: TextStyle(
+                hintStyle: const TextStyle(
                   fontWeight: FontWeight.w400,
                   fontSize: 14,
-                  color: const Color.fromRGBO(42, 42, 42, 0.5),
+                  color: Color.fromRGBO(42, 42, 42, 0.5),
                 ),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(8),
@@ -167,10 +169,10 @@ class PaymentScreen extends ConsumerWidget {
                       TextField(
                         decoration: InputDecoration(
                           hintText: 'mm/yy',
-                          hintStyle: TextStyle(
+                          hintStyle: const TextStyle(
                             fontWeight: FontWeight.w400,
                             fontSize: 14,
-                            color: const Color.fromRGBO(42, 42, 42, 0.5),
+                            color: Color.fromRGBO(42, 42, 42, 0.5),
                           ),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(8),
@@ -193,10 +195,10 @@ class PaymentScreen extends ConsumerWidget {
                       TextField(
                         decoration: InputDecoration(
                           hintText: '123',
-                          hintStyle: TextStyle(
+                          hintStyle: const TextStyle(
                             fontWeight: FontWeight.w400,
                             fontSize: 14,
-                            color: const Color.fromRGBO(42, 42, 42, 0.5),
+                            color: Color.fromRGBO(42, 42, 42, 0.5),
                           ),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(8),
@@ -217,12 +219,20 @@ class PaymentScreen extends ConsumerWidget {
               padding: const EdgeInsets.symmetric(horizontal: 32.0),
               height: 50.0,
               child: ElevatedButton(
-                onPressed: () {
+                onPressed: () async {
+                  final cartBox = Hive.box<CartModel>('cart');
+                  final cart = CartModel(
+                      cartItems: ref.watch(cartProvider),
+                      amountPaid: ref
+                          .read(cartProvider.notifier)
+                          .totalAmount);
+                  await cartBox.add(cart);
+
                   ref.read(cartProvider.notifier).clearCart();
                   Navigator.push(
                       context,
                       CupertinoPageRoute(
-                          builder: (context) => SuccessScreen()));
+                          builder: (context) => const SuccessScreen()));
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: kPrimaryColor,

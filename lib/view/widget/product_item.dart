@@ -1,5 +1,4 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:malltiverse/config/constants.dart';
@@ -8,13 +7,18 @@ import 'package:malltiverse/view/widget/stars.dart';
 import '../../model/product_model.dart';
 import '../../providers/cart_provider.dart';
 
-class ProductItem extends ConsumerWidget {
+class ProductItem extends ConsumerStatefulWidget {
   final ProductModel productModel;
 
   const ProductItem({super.key, required this.productModel});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<ProductItem> createState() => _ProductItemState();
+}
+
+class _ProductItemState extends ConsumerState<ProductItem> {
+  @override
+  Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 12.0),
       child: Column(
@@ -30,13 +34,13 @@ class ProductItem extends ConsumerWidget {
               height: 180.0,
               alignment: Alignment.center,
               child: CachedNetworkImage(
-                imageUrl: productModel.imageUrl,
+                imageUrl: widget.productModel.imageUrl,
                 fit: BoxFit.fitHeight,
                 height: 100.0,
               ),
             ),
           ]),
-          SizedBox(
+          const SizedBox(
             height: 16.0,
           ),
           Column(
@@ -44,8 +48,8 @@ class ProductItem extends ConsumerWidget {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               Text(
-                productModel.name.split(":")[1],
-                style: TextStyle(
+                widget.productModel.name.split(":")[1],
+                style: const TextStyle(
                     fontSize: 15.0,
                     fontWeight: FontWeight.w600,
                     overflow: TextOverflow.ellipsis),
@@ -53,7 +57,7 @@ class ProductItem extends ConsumerWidget {
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 8.0),
                 child: Text(
-                  productModel.description!,
+                  widget.productModel.description!,
                   style: const TextStyle(
                       fontSize: 14.0,
                       fontWeight: FontWeight.w400,
@@ -61,43 +65,105 @@ class ProductItem extends ConsumerWidget {
                 ),
               ),
               Stars(
-                stars: productModel.price.toInt() % 6,
+                stars: widget.productModel.price.toInt() % 6,
                 size: 16,
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 12.0),
                 child: Text(
-                  '$kNairaSymbol ${productModel.getPrice}',
-                  style: TextStyle(
+                  '$kNairaSymbol ${widget.productModel.getPrice}',
+                  style: const TextStyle(
                       fontWeight: FontWeight.w500,
                       fontSize: 14.0,
                       color: kPrimaryColor),
                 ),
               ),
-              OutlinedButton(
-                onPressed: () {
-                  ref.read(cartProvider.notifier).addToCart(productModel);
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text('Added to cart'),
+              ref.read(cartProvider.notifier).isInCart(widget.productModel)
+                  ? Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            InkWell(
+                              onTap: () => setState(() {
+                                ref
+                                    .read(cartProvider.notifier)
+                                    .decreaseQuantity(widget.productModel);
+                              }),
+                              child: Container(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 6.0),
+                                margin: const EdgeInsets.symmetric(
+                                    horizontal: 12.0),
+                                decoration: BoxDecoration(
+                                    border: Border.all(width: 1.0)),
+                                child: const Text(
+                                  "-",
+                                  style: TextStyle(fontWeight: FontWeight.w600),
+                                ),
+                              ),
+                            ),
+                            Text(ref
+                                .read(cartProvider.notifier)
+                                .getQuantity(widget.productModel)
+                                .toString()),
+                            InkWell(
+                              onTap: () => setState(() {
+                                ref
+                                    .read(cartProvider.notifier)
+                                    .addToCart(widget.productModel);
+                              }),
+                              child: Container(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 6.0),
+                                margin: const EdgeInsets.symmetric(
+                                    horizontal: 12.0),
+                                decoration: BoxDecoration(
+                                    border: Border.all(width: 1.0)),
+                                child: const Text(
+                                  "+",
+                                  style: TextStyle(fontWeight: FontWeight.w600),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    )
+                  : OutlinedButton(
+                      onPressed: () {
+                        setState(() {
+                          ref
+                              .read(cartProvider.notifier)
+                              .addToCart(widget.productModel);
+                        });
+
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('Added to cart'),
+                            behavior: SnackBarBehavior.floating,
+                            duration: Duration(milliseconds: 300),
+                            margin: EdgeInsets.symmetric(
+                                vertical: 90.0, horizontal: 20.0),
+                          ),
+                        );
+                      },
+                      style: ButtonStyle(
+                        shape: WidgetStateProperty.all(
+                          RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12.0),
+                          ),
+                        ),
+                        side: WidgetStateProperty.all(
+                            const BorderSide(color: kPrimaryColor)),
+                      ),
+                      child: const Text(
+                        "Add To Cart",
+                        style: TextStyle(
+                            fontWeight: FontWeight.w500, color: Colors.black87),
+                      ),
                     ),
-                  );
-                },
-                child: Text(
-                  "Add To Cart",
-                  style: TextStyle(
-                      fontWeight: FontWeight.w500, color: Colors.black87),
-                ),
-                style: ButtonStyle(
-                  shape: WidgetStateProperty.all(
-                    RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12.0),
-                    ),
-                  ),
-                  side:
-                      WidgetStateProperty.all(BorderSide(color: kPrimaryColor)),
-                ),
-              ),
             ],
           )
         ],

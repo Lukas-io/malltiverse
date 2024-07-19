@@ -14,7 +14,7 @@ class SuccessScreen extends StatefulWidget {
 class _SuccessScreenState extends State<SuccessScreen> {
   @override
   void initState() {
-    Future.delayed(Duration(seconds: 3), () {
+    Future.delayed(const Duration(seconds: 3), () {
       if (mounted) {
         Navigator.of(context).pushAndRemoveUntil(
           CupertinoPageRoute(builder: (context) => Home()),
@@ -29,7 +29,7 @@ class _SuccessScreenState extends State<SuccessScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: CustomScrollView(
-        physics: NeverScrollableScrollPhysics(),
+        physics: const NeverScrollableScrollPhysics(),
         slivers: [
           SliverAppBar(
             leadingWidth: 108.0,
@@ -48,8 +48,8 @@ class _SuccessScreenState extends State<SuccessScreen> {
                       image: Image.asset(pConfetti).image, fit: BoxFit.fill)),
               child: Column(
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 200.0, top: 24.0),
+                  const Padding(
+                    padding: EdgeInsets.only(bottom: 200.0, top: 24.0),
                     child: Text(
                       "Payment Successful",
                       style: TextStyle(
@@ -57,15 +57,15 @@ class _SuccessScreenState extends State<SuccessScreen> {
                     ),
                   ),
                   Image.asset(pSuccessful),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 24.0),
+                  const Padding(
+                    padding: EdgeInsets.symmetric(vertical: 24.0),
                     child: Text(
                       "Payment Successful",
                       style: TextStyle(
                           fontWeight: FontWeight.w600, fontSize: 18.0),
                     ),
                   ),
-                  Text(
+                  const Text(
                     "Thanks for your purchase",
                     style:
                         TextStyle(fontWeight: FontWeight.w400, fontSize: 14.0),

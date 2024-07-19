@@ -1,5 +1,4 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:malltiverse/config/constants.dart';
@@ -15,12 +14,13 @@ class CartItem extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 12.0, vertical: 16.0),
-      margin: EdgeInsets.symmetric(horizontal: 12.0, vertical: 12.0),
+      padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 16.0),
+      margin: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 12.0),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(4.0),
         border: Border.fromBorderSide(
-          BorderSide(width: 0.3, color: Color(0XFF2A2A2A).withOpacity(0.4)),
+          BorderSide(
+              width: 0.3, color: const Color(0XFF2A2A2A).withOpacity(0.4)),
         ),
       ),
       child: Row(
@@ -30,7 +30,7 @@ class CartItem extends ConsumerWidget {
             width: 100.0,
             height: 100.0,
           ),
-          SizedBox(
+          const SizedBox(
             width: 20.0,
           ),
           Expanded(
@@ -40,25 +40,22 @@ class CartItem extends ConsumerWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SizedBox(
-                          width: 210.0,
-                          child: Text(
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
                             productModel.name.split(":")[1],
-                            style: TextStyle(
+                            style: const TextStyle(
                                 overflow: TextOverflow.ellipsis,
                                 fontWeight: FontWeight.w600),
                           ),
-                        ),
-                        SizedBox(
-                            width: 180.0,
-                            child: Text(
-                              productModel.description!,
-                              style: TextStyle(fontWeight: FontWeight.w400),
-                            )),
-                      ],
+                          Text(
+                            productModel.description!,
+                            style: const TextStyle(fontWeight: FontWeight.w400),
+                          ),
+                        ],
+                      ),
                     ),
                     IconButton(
                         onPressed: () => ref
@@ -67,7 +64,7 @@ class CartItem extends ConsumerWidget {
                         icon: ImageIcon(Image.asset(pTrash).image)),
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 16.0,
                 ),
                 Row(
@@ -81,14 +78,16 @@ class CartItem extends ConsumerWidget {
                               .read(cartProvider.notifier)
                               .decreaseQuantity(productModel),
                           child: Container(
-                            child: Text(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 6.0),
+                            margin:
+                                const EdgeInsets.symmetric(horizontal: 12.0),
+                            decoration:
+                                BoxDecoration(border: Border.all(width: 1.0)),
+                            child: const Text(
                               "-",
                               style: TextStyle(fontWeight: FontWeight.w600),
                             ),
-                            padding: EdgeInsets.symmetric(horizontal: 6.0),
-                            margin: EdgeInsets.symmetric(horizontal: 12.0),
-                            decoration:
-                                BoxDecoration(border: Border.all(width: 1.0)),
                           ),
                         ),
                         Text(productModel.quantity.toString()),
@@ -97,21 +96,23 @@ class CartItem extends ConsumerWidget {
                               .read(cartProvider.notifier)
                               .addToCart(productModel),
                           child: Container(
-                            child: Text(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 6.0),
+                            margin:
+                                const EdgeInsets.symmetric(horizontal: 12.0),
+                            decoration:
+                                BoxDecoration(border: Border.all(width: 1.0)),
+                            child: const Text(
                               "+",
                               style: TextStyle(fontWeight: FontWeight.w600),
                             ),
-                            padding: EdgeInsets.symmetric(horizontal: 6.0),
-                            margin: EdgeInsets.symmetric(horizontal: 12.0),
-                            decoration:
-                                BoxDecoration(border: Border.all(width: 1.0)),
                           ),
                         ),
                       ],
                     ),
                     Text(
                       '$kNairaSymbol ${productModel.getPrice}',
-                      style: TextStyle(
+                      style: const TextStyle(
                           fontWeight: FontWeight.w600, fontSize: 16.0),
                     )
                   ],

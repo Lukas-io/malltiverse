@@ -16,6 +16,17 @@ class CartNotifier extends StateNotifier<List<ProductModel>> {
     }
   }
 
+  bool isInCart(ProductModel product) {
+    return state.any((item) => item.name == product.name);
+  }
+
+  int getQuantity(ProductModel product) {
+    final existingItem = state.firstWhere(
+      (item) => item.name == product.name,
+    );
+    return existingItem.quantity;
+  }
+
   void removeFromCart(ProductModel product) {
     state = state.where((item) => item.name != product.name).toList();
   }

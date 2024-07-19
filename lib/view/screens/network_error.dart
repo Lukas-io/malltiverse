@@ -27,9 +27,9 @@ class NetworkError extends StatelessWidget {
                 color: kPrimaryColor.withOpacity(0.4),
                 size: 100.0,
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 12.0),
-                child: const Text(
+              const Padding(
+                padding: EdgeInsets.symmetric(vertical: 12.0),
+                child: Text(
                   'Try Again!',
                   style: TextStyle(
                     fontSize: 25,

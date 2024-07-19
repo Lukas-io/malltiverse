@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:malltiverse/config/constants.dart';
 import 'package:malltiverse/view/widget/product_item.dart';
@@ -34,7 +33,7 @@ class _CategoryState extends State<Category> {
           padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
           child: Text(
             widget.title,
-            style: TextStyle(fontWeight: FontWeight.w600, fontSize: 20),
+            style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 20),
           ),
         ),
         SizedBox(
@@ -45,11 +44,11 @@ class _CategoryState extends State<Category> {
               setState(() {
                 if (page.isOdd && page > _currentPage) {
                   _controller.animateToPage(page + 1,
-                      duration: Duration(milliseconds: 300),
+                      duration: const Duration(milliseconds: 300),
                       curve: Curves.easeInOut);
                 } else if (page < _currentPage && page.isOdd) {
                   _controller.animateToPage(page - 1,
-                      duration: Duration(milliseconds: 300),
+                      duration: const Duration(milliseconds: 300),
                       curve: Curves.easeInOut);
                 }
                 _currentPage = page;
@@ -65,55 +64,41 @@ class _CategoryState extends State<Category> {
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-              margin: EdgeInsets.all(6.0),
-              decoration: ShapeDecoration(
-                  shape: OvalBorder(
-                      side: BorderSide(
-                          width: 1.0,
-                          color: pageIndicatorCurrent != 0
-                              ? Color(0XFFBBBBBB)
-                              : Colors.transparent)),
-                  color: pageIndicatorCurrent != 0
-                      ? Colors.transparent
-                      : kPrimaryColor),
-              height: 12.0,
-              width: 12.0,
-            ),
-            Container(
-              margin: EdgeInsets.all(6.0),
-              decoration: ShapeDecoration(
-                  shape: OvalBorder(
-                      side: BorderSide(
-                          width: 1.0,
-                          color: pageIndicatorCurrent != 1
-                              ? Color(0XFFBBBBBB)
-                              : Colors.transparent)),
-                  color: pageIndicatorCurrent != 1
-                      ? Colors.transparent
-                      : kPrimaryColor),
-              height: 12.0,
-              width: 12.0,
-            ),
-            Container(
-              margin: EdgeInsets.all(6.0),
-              decoration: ShapeDecoration(
-                  shape: OvalBorder(
-                      side: BorderSide(
-                          width: 1.0,
-                          color: pageIndicatorCurrent != 2
-                              ? Color(0XFFBBBBBB)
-                              : Colors.transparent)),
-                  color: pageIndicatorCurrent != 2
-                      ? Colors.transparent
-                      : kPrimaryColor),
-              height: 12.0,
-              width: 12.0,
-            ),
-          ],
+          children: List.generate(widget.categoryList.length ~/ 2, (index) {
+            return _Indicator(
+              pageIndicatorCurrent: pageIndicatorCurrent,
+              position: index,
+            );
+          }),
         )
       ],
+    );
+  }
+}
+
+class _Indicator extends StatelessWidget {
+  const _Indicator(
+      {super.key, required this.pageIndicatorCurrent, required this.position});
+
+  final int pageIndicatorCurrent;
+  final int position;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.all(6.0),
+      decoration: ShapeDecoration(
+          shape: OvalBorder(
+              side: BorderSide(
+                  width: 1.0,
+                  color: pageIndicatorCurrent != position
+                      ? const Color(0XFFBBBBBB)
+                      : Colors.transparent)),
+          color: pageIndicatorCurrent != position
+              ? Colors.transparent
+              : kPrimaryColor),
+      height: 12.0,
+      width: 12.0,
     );
   }
 }

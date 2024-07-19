@@ -1,7 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../config/constants.dart';
-import '../model/category_model.dart';
 import '../model/product_model.dart';
 
 class ProductController {
@@ -19,7 +17,6 @@ class ProductController {
       );
       if (response.statusCode == 200) {
         List<dynamic> data = response.data['items'];
-        print(data);
 
         return data.map((json) => ProductModel.fromJson(json)).toList();
       } else {
@@ -55,7 +52,6 @@ class ProductController {
     }
   }
 }
-
 
 // // Create a provider for CategoryModel
 // final categoryProvider = FutureProvider<CategoryModel>((ref) async {

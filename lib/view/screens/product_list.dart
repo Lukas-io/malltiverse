@@ -75,58 +75,61 @@ class _ProductListScreenState extends State<ProductListScreen> {
             ),
           ),
         ),
-        SliverToBoxAdapter(
-          child: FutureBuilder<List<ProductModel>>(
-            future: controller.fetchProducts(),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return Padding(
-                  padding: const EdgeInsets.all(48.0),
-                  child: Center(
-                    child: CircularProgressIndicator(
-                      color: CupertinoColors
-                          .systemOrange.highContrastElevatedColor,
+        SliverPadding(
+          padding: EdgeInsets.only(bottom: 80.0),
+          sliver: SliverToBoxAdapter(
+            child: FutureBuilder<List<ProductModel>>(
+              future: controller.fetchProducts(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Padding(
+                    padding: const EdgeInsets.all(48.0),
+                    child: Center(
+                      child: CircularProgressIndicator(
+                        color: CupertinoColors
+                            .systemOrange.highContrastElevatedColor,
+                      ),
                     ),
-                  ),
+                  );
+                }
+                if (snapshot.hasError) {
+                  return Center(
+                      child: NetworkError(
+                    error: snapshot.error.toString(),
+                    onTryAgain: () {
+                      setState(() {
+                        controller.fetchProducts();
+                      });
+                    },
+                  ));
+                }
+                if (!snapshot.hasData && snapshot.data!.isEmpty) {
+                  return const Center(
+                    child: Text(
+                        "Apologies, No available products today \n Come back tomorrow"),
+                  );
+                }
+                CategoryModel categoryModel =
+                    CategoryModel(allProducts: snapshot.data!);
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Category(
+                      title: 'Tech Gadget',
+                      categoryList: categoryModel.techGadgets,
+                    ),
+                    Category(
+                      title: 'Men\'s Fashion',
+                      categoryList: categoryModel.menFashion,
+                    ),
+                    Category(
+                      title: 'Women\'s Fashion',
+                      categoryList: categoryModel.womenFashion,
+                    ),
+                  ],
                 );
-              }
-              if (snapshot.hasError) {
-                return Center(
-                    child: NetworkError(
-                  error: snapshot.error.toString(),
-                  onTryAgain: () {
-                    setState(() {
-                      controller.fetchProducts();
-                    });
-                  },
-                ));
-              }
-              if (!snapshot.hasData && snapshot.data!.isEmpty) {
-                return const Center(
-                  child: Text(
-                      "Apologies, No available products today \n Come back tomorrow"),
-                );
-              }
-              CategoryModel categoryModel =
-                  CategoryModel(allProducts: snapshot.data!);
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Category(
-                    title: 'Tech Gadget',
-                    categoryList: categoryModel.techGadgets,
-                  ),
-                  Category(
-                    title: 'Men\'s Fashion',
-                    categoryList: categoryModel.menFashion,
-                  ),
-                  Category(
-                    title: 'Women\'s Fashion',
-                    categoryList: categoryModel.womenFashion,
-                  ),
-                ],
-              );
-            },
+              },
+            ),
           ),
         )
       ],
