@@ -1,10 +1,10 @@
-A HNG Project - Stage 3 actually, building off Claire's Design
+A HNG Project - Stage 4 actually, building off Claire's Design
 
-#  HNG Internship Stage III  
+#  HNG Internship Stage IV
 
 Hey there 👋
 
-This is the third stage of HNG. I'm building an e-commerce app, shout out to Claire, the designer.
+This is the fourth stage of HNG. I'm building an e-commerce app, shout out to Claire, the designer.
 
 Design Credit: Claire Erhuanga 
 Figma Design File: [HNG-INTERNSHIP)](https://www.figma.com/file/QHq9WbFOHgdDRhPuLOTNvB/HNG-INTERNSHIP)
