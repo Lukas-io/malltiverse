@@ -11,7 +11,7 @@ Figma Design File: [HNG-INTERNSHIP)](https://www.figma.com/file/QHq9WbFOHgdDRhPu
 
 ## Appetize Link
 
-You can preview the app on Appetize: [Appetize.io](https://appetize.io/app/b_dftesbpieop6thbnfpbp7tpwkm)
+You can preview the app on Appetize: [Appetize.io](https://appetize.io/app/b_edklrvbo6wk3m7gnvfecogssmq)
 
 ## Setup Instructions
 
